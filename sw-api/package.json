@@ -1,0 +1,21 @@
+{
+  "name": "sw-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node  --es-module-specifier-resolution=node  index.js",
+    "batch": "node --es-module-specifier-resolution=node ./lib/update-files.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "type": "module",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "filenamify": "^5.0.2",
+    "jsdom": "^19.0.0",
+    "wtf_wikipedia": "^9.0.2"
+  }
+}
