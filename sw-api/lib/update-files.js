@@ -2,8 +2,7 @@ import { readBooks } from './read-books';
 import { fetchUrlAsText, saveToFile, downloadUrl } from './common/utils';
 import path from 'path';
 import filenamify from 'filenamify';
-import  { existsSync } from 'fs';
-
+import { existsSync } from 'fs';
 
 const WIKI_BASEURL = 'https://starwars.fandom.com/wiki/';
 
@@ -13,8 +12,6 @@ const books = await readBooks(async (titlePage, format = 'wiki') => {
   const pageContent = await fetchUrlAsText(url);
   return pageContent;
 });
-
-saveToFile(JSON.stringify(books),  path.resolve('data', 'books.json'));
 
 books.forEach(async (book) => {
   if (!book.wiki_page) {
@@ -34,3 +31,9 @@ books.forEach(async (book) => {
     }
   }
 });
+
+books.forEach((book) => {
+  delete book.url;
+});
+
+saveToFile(JSON.stringify(books), path.resolve('data', 'books.json'));
