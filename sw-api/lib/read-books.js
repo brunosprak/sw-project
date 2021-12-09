@@ -1,8 +1,7 @@
 import wtf from 'wtf_wikipedia';
 import { mergeObjects } from './common/utils';
 import { JSDOM } from 'jsdom';
-
-// const fetchTextFn = (titlePage, format = 'wiki') => {};
+import he from 'he';
 
 const fetchBasicInfo = (document) => {
   const tables = document.tables();
@@ -41,6 +40,8 @@ const fetchBasicInfo = (document) => {
   });
 };
 
+// const fetchTextFn = (titlePage, format = 'wiki') => {};
+
 const fetchAndMergeWithDetailInfo = async (fetchTextFn, basicBookInfoList) => {
   if (!basicBookInfoList) {
     return [];
@@ -60,8 +61,8 @@ const fetchAndMergeWithDetailInfo = async (fetchTextFn, basicBookInfoList) => {
               illustrator: detail.illustrator || '',
               publisher: detail.publisher || '',
               isbn: detail.isbn || '',
-              pages: detail.pages || '',
-              timeline: detail.timeline || '',
+              pages: +detail.pages || '',
+              timeline: (detail.timeline && he.decode(detail.timeline)) || '',
             });
     })
   );
