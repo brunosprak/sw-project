@@ -2,17 +2,26 @@ import {
   BOOKS_WIKI_TEXT,
   BB8_WIKI_TEXT,
   BOBA_FETT_WIKI_TEXT,
+  DARK_PLAGUES_TEXT
 } from './__test__/test-texts';
 import { readBooks } from './read-books';
 
 const fetchText = async (titlePage, format = 'wiki') => {
-  if (titlePage === 'List of future books' && format === 'wiki') {
+  if (titlePage === 'List_of_future_books' && format === 'wiki') {
     return BOOKS_WIKI_TEXT;
   }
 
   if (titlePage === 'BB-8_and_the_Snow_Monster') {
     if (format === 'wiki') {
       return BB8_WIKI_TEXT;
+    } else {
+      return '<html>No images in this html</html>';
+    }
+  }
+
+  if (titlePage === 'Darth_Plagueis_(novel)') {
+    if (format === 'wiki') {
+      return DARK_PLAGUES_TEXT;
     } else {
       return '<html>No images in this html</html>';
     }
@@ -40,7 +49,8 @@ describe('Reading books', () => {
     books = await readBooks(fetchText);
   });
   test('Future books page', async () => {
-    expect(books).toHaveLength(2);
+    console.log(books);
+    expect(books).toHaveLength(3);
   });
   test('novels are correctly retrieved', async () => {
     const novels = books.filter((book) => book.format === 'Novel');
@@ -60,6 +70,12 @@ describe('Reading books', () => {
     expect(bb8Book.timeline).toBe('34 ABY–35 ABY');
     expect(bb8Book.publisher).toBe('Disney–Lucasfilm Press');
     expect(bb8Book.illustrator).toBe('Brian Kesinger');
+
+    const plagueisBook = books.find(
+      (book) => book.title === 'Darth Plagueis'
+    ); 
+    expect(plagueisBook.wiki_page).toBe('Darth_Plagueis_(novel)');
+
 
   });
 });

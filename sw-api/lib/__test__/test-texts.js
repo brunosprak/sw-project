@@ -17,6 +17,11 @@ export const BOOKS_WIKI_TEXT = `
 |[[Caitlin Kennedy]]
 |Young readers book
 |[[February 7]], [[2023]]
+|-
+|[[Darth Plagueis (novel)|''Darth Plagueis'']]
+|[[James Luceno]]
+|''The Essential Legends Collection'' reprint
+|April 5, 2022
 |}
 `;
 
@@ -59,3 +64,22 @@ export const BOBA_FETT_WIKI_TEXT = `
 |preceded by=''[[Star Wars: Be More Leia]]''
 |followed by=''[[Star Wars: Be More Obi-Wan]]''}}
 `;
+export const DARK_PLAGUES_TEXT = `{{Book
+    |book name=''Darth Plagueis''
+    |image=[[File:darthplagueis-cover.jpg]]
+    |author=[[James Luceno]]
+    |cover artist=*[[Torstein Nordstrand]] {{C|Illustration}}
+    *[[Elizabeth A. D. Eno]] {{C|Book design}}
+    |illustrator=
+    |editor=
+    |publisher=
+    *[[Del Rey]] (US)
+    *[[Arrow Books Ltd.|Arrow]] (UK)
+    |release date=[[January 10]], [[2012]]<ref name="SWBooks">{{FacebookCite|profilelink=starwarsbooks|url=starwarsbooks/posts/10150350678103713|author=Star Wars Books|description=Date change for ''Darth Plagueis''|dateposted=2011-09-30|archivedate=20160115204708}}</ref>
+    |media type=Hardcover
+    |pages=379
+    |isbn=034551128X
+    |timeline=[[67 BBY|67]]-[[65 BBY/Legends|65 BBY]] {{C|Part 1}}<ref name="TERC">''[[The Essential Reader's Companion]]''</ref><br />[[54 BBY/Legends|54]]-[[52 BBY/Legends|52 BBY]] {{C|Part 2}}<ref name="TERC" /><br />[[34 BBY/Legends|34]]-[[32 BBY/Legends|32 BBY]] {{C|Part 3}}<ref name="TERC" />
+    |series=
+    |preceded by=''[[The Tenebrous Way]]''
+    |followed by=''[[Legacy of the Jedi]]''}}`;

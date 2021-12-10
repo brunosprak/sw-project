@@ -39,16 +39,16 @@ app.get('/book/:wiki_page/cover', function (req, res) {
     const readStream = fs.createReadStream(filePath);
     readStream.pipe(res);
   } catch (err) {
-    res.status(404).send('Not found');
-    // const filePath = path.resolve('assets', 'notFound.png');
-    // const stats = fs.statSync(filePath);
-    // fileSizeInBytes = stats.size;
-    // res.writeHead(200, {
-    //   'Content-Type': 'image/png',
-    //   'Content-Length': 3916,
-    // });
-    // const readStream = fs.createReadStream(filePath);
-    // readStream.pipe(res);
+    // res.status(404).send('Not found');
+    const filePath = path.resolve('assets', 'notFound.png');
+    const stats = fs.statSync(filePath);
+    fileSizeInBytes = stats.size;
+    res.writeHead(200, {
+      'Content-Type': 'image/png',
+      'Content-Length': 83057,
+    });
+    const readStream = fs.createReadStream(filePath);
+    readStream.pipe(res);
   }
 });
 

@@ -25,3 +25,11 @@
         transform: scale(1.05);
     }
   }
+
+  .tag {
+    height: auto !important;
+    white-space: unset !important;
+    /* width: 100%; */
+    /* text-align:left; */
+  }
+  

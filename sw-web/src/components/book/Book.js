@@ -1,20 +1,9 @@
 import classes from './Book.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
-// import { useCallback, useRef } from 'react';
-// import { ImageNotFound} from '../ui/icons/ImageNotFound';
-// import imageNotFound from './images/image-not-found.svg';
-// import ImageNotFound from '../ui/icons/ImageNotFound';
 import ImageWithFallback from '../ui/ImageWithFallback';
+
 const Book = (props) => {
-  //   const imageRef = useRef();
-  //   const handleImageError = useCallback((event, err) => {
-  //     // imageRef.current.src = 'http://www.simpleimageresizer.com/static/images/simple-image-resizer-128x128.png';
-  //     // imageRef.current.src  = <ImageNotFound/>;
-  //     console.log(event);
-
-  //   }, []);
-
   const fallbackHandler = () => {
     return '/images/image-not-found-bw.png';
   };
@@ -32,23 +21,18 @@ const Book = (props) => {
       <div className={`card-content ${classes['content']}`}>
         <div className='has-text-centered'>
           <div className=''>
-            <figure className={`image `}>
+            <figure className='image'>
               <ImageWithFallback
-                src={`http://localhost:9001/book/${props.book.title.replaceAll(
-                  ' ',
-                  '_'
-                )}/cover`}
+                src={`http://localhost:9001/book/${props.book.wiki_page}/cover`}
                 alt='Book cover'
                 onFallback={fallbackHandler}
               />
-              {/* <img ref={imageRef} alt="Book cover"
-                onError={handleImageError}
-                src={`http://localhost:9001/book/${props.book.title.replaceAll(
-                  ' ',
-                  '_'
-                )}/cover`}
-              /> */}
             </figure>
+            <div class='tags mt-2'>
+              <span class={`tag is-medium is-rounded ${classes.tag}`}>
+                {props.book.format}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -56,7 +40,7 @@ const Book = (props) => {
         <a
           target='_blank'
           rel='noreferrer'
-          href={`https://www.amazon.com/s?k=${props.book.isbn}`}
+          href={`https://www.amazon.com/gp/search/?field-isbn=${props.book.isbn}`}
           className='card-footer-item'
         >
           Amazon

@@ -101,10 +101,20 @@ const fetchAndMergeWithImageUrlInfo = async (fetchTextFn, bookInfoList) => {
 };
 
 export const readBooks = async (fetchTextFn) => {
-  const wikiText = await fetchTextFn('List of future books');
+  const wikiText = await fetchTextFn('List_of_future_books');
+
+  if(!wikiText){
+    throw Error('Error when obtaining list of books');
+  }
   const document = wtf(wikiText);
 
-  const basicBookInfoList = fetchBasicInfo(document);
+  let basicBookInfoList;
+
+  try{
+    basicBookInfoList = fetchBasicInfo(document);
+  }catch(err){
+    throw Error('Error when obtaining details of books');
+  }
 
   const bookWithDetailedInfoList = await fetchAndMergeWithDetailInfo(
     fetchTextFn,

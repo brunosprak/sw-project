@@ -86,14 +86,16 @@ let booksInColumns = BOOKS.map((book, i) => {
 });
 booksInColumns = booksInColumns.filter((book) => book !== null);
 
+const title = 'List of upcoming books';
+
 const FutureBooks = (props) => {
   return (
     <section className=''>
       <div className='container'>
         <div className='hero is-primary block'>
           <div className='hero-body '>
-            <p className='title'>List of upcoming books</p>
-            {/* <p className='subtitle'>Prepare for </p> */}
+            <p className='title'>{title}</p>
+            <p className='subtitle aurabesh'>{title}</p>
           </div>
         </div>
         {booksInColumns.map((bookColumn, i) => (
