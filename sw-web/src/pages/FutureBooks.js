@@ -96,16 +96,10 @@ const FutureBooks = (props) => {
             {/* <p className='subtitle'>Prepare for </p> */}
           </div>
         </div>
-        {/* <div className='columns is-full '> */}
-        {/* {BOOKS.map((book) => (
-            <div className='column '>
-              <Book book={book} />
-            </div>
-          ))}</div> */}
-        {booksInColumns.map((bookColumn) => (
-          <div className='columns '>
+        {booksInColumns.map((bookColumn, i) => (
+          <div key={i} className='columns '>
             {bookColumn.map((book) => (
-              <div className={`column is-one-fifth`}>
+              <div  key={book.title}  className={`column is-one-fifth`}>
                 <Book book={book} />
               </div>
             ))}
