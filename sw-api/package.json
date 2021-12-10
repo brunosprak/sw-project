@@ -13,6 +13,7 @@
   "type": "module",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "filenamify": "^5.0.2",
     "he": "^1.2.0",

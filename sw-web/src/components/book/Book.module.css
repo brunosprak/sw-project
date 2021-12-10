@@ -1,8 +1,8 @@
 .book:hover {
     animation: bigger 100ms 1;
-    -moz-transform:scale(1.05);
-    -webkit-transform:scale(1.05);
-    transform: scale(1.05);
+    -moz-transform:scale(1.03);
+    -webkit-transform:scale(1.03);
+    transform: scale(1.03);
 }
 .book {
     transition: 100ms;
@@ -12,6 +12,9 @@
     flex-direction:column;
     justify-content:space-between;
 }
+.book .header {
+    height:6rem;
+}
 @keyframes bigger {
     from {
         -moz-transform:scale(1.00);
@@ -20,9 +23,9 @@
     }
   
     to {
-        -moz-transform:scale(1.05);
-        -webkit-transform:scale(1.05);
-        transform: scale(1.05);
+        -moz-transform:scale(1.03);
+        -webkit-transform:scale(1.03);
+        transform: scale(1.03);
     }
   }
 

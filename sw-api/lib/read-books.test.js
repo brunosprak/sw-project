@@ -70,11 +70,14 @@ describe('Reading books', () => {
     expect(bb8Book.timeline).toBe('34 ABY–35 ABY');
     expect(bb8Book.publisher).toBe('Disney–Lucasfilm Press');
     expect(bb8Book.illustrator).toBe('Brian Kesinger');
+    expect(bb8Book.canonicity).toBe('canon');
+
 
     const plagueisBook = books.find(
       (book) => book.title === 'Darth Plagueis'
     ); 
     expect(plagueisBook.wiki_page).toBe('Darth_Plagueis_(novel)');
+    expect(plagueisBook.canonicity).toBe('legends');
 
 
   });

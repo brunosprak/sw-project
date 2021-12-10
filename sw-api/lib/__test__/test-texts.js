@@ -26,6 +26,7 @@ export const BOOKS_WIKI_TEXT = `
 `;
 
 export const BB8_WIKI_TEXT = `
+{{Top|real|can|title=''{{PAGENAME}}''}}
 {{Future product|book}}
 {{Book
 |image=
@@ -46,6 +47,7 @@ export const BB8_WIKI_TEXT = `
 `;
 
 export const BOBA_FETT_WIKI_TEXT = `
+{{Top|real|can|title=''{{PAGENAME}}''}}
 {{Future product|book}}
 {{Book
 |image=[[File:Be_More_Boba_Fett_cover.jpg]]
@@ -64,7 +66,8 @@ export const BOBA_FETT_WIKI_TEXT = `
 |preceded by=''[[Star Wars: Be More Leia]]''
 |followed by=''[[Star Wars: Be More Obi-Wan]]''}}
 `;
-export const DARK_PLAGUES_TEXT = `{{Book
+export const DARK_PLAGUES_TEXT = `{{Top|new|real|title=''{{PAGENAME}}''}}
+    {{Book
     |book name=''Darth Plagueis''
     |image=[[File:darthplagueis-cover.jpg]]
     |author=[[James Luceno]]

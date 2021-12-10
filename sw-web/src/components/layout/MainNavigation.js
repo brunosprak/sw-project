@@ -32,7 +32,7 @@ const MainNavigation = () => {
     <nav className='navbar'>
       <div className='container'>
         <div className='navbar-brand'>
-          <Link className='navbar-item' to='/home'>
+          <Link className='navbar-item' to='/'>
             <StarWarsIcon />
           </Link>
           <button
@@ -48,9 +48,9 @@ const MainNavigation = () => {
         </div>
         <div id='navbarMenu' className='navbar-menu'>
           <div className='navbar-end'>
-            <Link className='navbar-item is-active' to='/home'>
+            {/* <Link className='navbar-item is-active' to='/home'>
               Home
-            </Link>
+            </Link> */}
             <Link className='navbar-item ' to='/future-books'>
               Future books
             </Link>

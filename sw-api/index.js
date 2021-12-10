@@ -2,8 +2,19 @@ import express from 'express';
 import path from 'path';
 import fs from 'fs';
 import filenamify from 'filenamify';
-
+import { sleep } from './lib/common/utils';
+import cors from 'cors';
 var app = express();
+
+app.use((req, res, next) => {
+  //Qual site tem permissão de realizar a conexão, no exemplo abaixo está o "*" indicando que qualquer site pode fazer a conexão
+  res.header('Access-Control-Allow-Origin', '*');
+  //Quais são os métodos que a conexão pode realizar na API
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  app.use(cors());
+  next();
+});
+
 app.get('/', function (req, res) {
   res.status(404).send('Not found');
 });
@@ -17,9 +28,7 @@ app.get('/book/:wiki_page/cover', function (req, res) {
   let fileSizeInBytes;
 
   try {
-
     // app.use(express.static('/book', { maxAge: 86400000 /* 1d */ }));
-
 
     const stats = fs.statSync(filePath);
     fileSizeInBytes = stats.size;
@@ -31,10 +40,10 @@ app.get('/book/:wiki_page/cover', function (req, res) {
       // "Cache-Control": "public, max-age=86400",
     });
 
-  //       res.set({
-  //     "Cache-Control": "public, max-age=86400",
-  //     "Expires": new Date(Date.now() + 86400000).toUTCString()
-  //  })
+    //       res.set({
+    //     "Cache-Control": "public, max-age=86400",
+    //     "Expires": new Date(Date.now() + 86400000).toUTCString()
+    //  })
 
     const readStream = fs.createReadStream(filePath);
     readStream.pipe(res);
@@ -54,7 +63,7 @@ app.get('/book/:wiki_page/cover', function (req, res) {
 
 app.get('/books/future', function (req, res) {
   const filePath = path.resolve('data', 'books.json');
-
+  // await sleep(3000);
   let fileSizeInBytes;
 
   try {
@@ -65,13 +74,8 @@ app.get('/books/future', function (req, res) {
       'Content-Type': 'application/json',
       'Content-Length': fileSizeInBytes,
       // "Expires": new Date(Date.now() + 86400000).toUTCString(),
-      // "Cache-Control": "public, max-age=86400",
+      'Cache-Control': 'no-transform,public,max-age=300,s-maxage=900',
     });
-
-  //   res.set({
-  //     "Cache-Control": "public, max-age=86400",
-  //     "Expires": new Date(Date.now() + 86400000).toUTCString()
-  //  })
 
     var readStream = fs.createReadStream(filePath);
     readStream.pipe(res);

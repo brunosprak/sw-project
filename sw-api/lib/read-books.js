@@ -27,9 +27,17 @@ const fetchBasicInfo = (document) => {
     ) {
       page = book.Title.links[0].page.split(' ').join('_');
     }
+
+    let format = book['Format'].text;
+    let reprint = false;
+    if(format.indexOf('reprint') !== -1){
+      format = format.replace('reprint', '').trim();
+      reprint = true;
+    }
     return {
       title: book['Title'].text,
-      format: book['Format'].text,
+      format,
+      reprint,
       author: book['Author'].text,
       // TODO validate if it is a date
       publish_date:
@@ -56,6 +64,12 @@ const fetchAndMergeWithDetailInfo = async (fetchTextFn, basicBookInfoList) => {
       if (template == null) {
         return null;
       }
+      const templateTop = detailDocument.template('Top');
+      let canonicity = '';
+      if(templateTop && templateTop.wiki) {
+        canonicity = templateTop.wiki.indexOf('|can|') !== -1 ? 'canon' : 'legends';
+      }
+
       const detail = template.json();
       return mergeObjects(basicBookInfo, {
               illustrator: detail.illustrator || '',
@@ -63,6 +77,7 @@ const fetchAndMergeWithDetailInfo = async (fetchTextFn, basicBookInfoList) => {
               isbn: detail.isbn || '',
               pages: +detail.pages || '',
               timeline: (detail.timeline && he.decode(detail.timeline)) || '',
+              canonicity
             });
     })
   );
