@@ -1,6 +1,6 @@
 import classes from './Wookieepedia.module.css';
 
-const WookieepediaIcon = ({label = 'Wiki', ...props}) => {
+const WookieepediaIcon = ({label = 'Wookiee', ...props}) => {
   return (
     <>
       <img

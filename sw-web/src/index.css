@@ -1,5 +1,8 @@
 @import 'bulma/css/bulma.css';
 
+
+@import 'bulma-switch/dist/css/bulma-switch.min.css';
+
 :root {
   background-color: whitesmoke;
 }
