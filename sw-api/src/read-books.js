@@ -1,7 +1,7 @@
 import wtf from 'wtf_wikipedia';
-import { mergeObjects } from './common/utils';
 import { JSDOM } from 'jsdom';
 import he from 'he';
+import { mergeObjects } from './common/utils';
 
 const fetchBasicInfo = (document) => {
   const tables = document.tables();
@@ -11,38 +11,29 @@ const fetchBasicInfo = (document) => {
   const booksTable = tables[0].json();
 
   // wtf has a bug with titled containing two ':'. Skipping them for now.
-  const filteredBooks = booksTable.filter(
-    (book) => book.Title.text.split(':').length < 3
-  );
+  const filteredBooks = booksTable.filter((book) => book.Title.text.split(':').length < 3);
 
   return filteredBooks.map((book) => {
     let page = '';
 
-    if (
-      book &&
-      book.Title &&
-      book.Title.links &&
-      book.Title.links[0] &&
-      book.Title.links[0].page
-    ) {
+    if (book && book.Title && book.Title.links && book.Title.links[0] && book.Title.links[0].page) {
       page = book.Title.links[0].page.split(' ').join('_');
     }
 
-    let format = book['Format'].text;
+    let format = book.Format.text;
     let reprint = false;
-    if(format.indexOf('reprint') !== -1){
+    if (format.indexOf('reprint') !== -1) {
       format = format.replace('reprint', '').trim();
       reprint = true;
     }
     return {
-      title: book['Title'].text,
+      title: book.Title.text,
       format,
       reprint,
-      author: book['Author'].text,
+      author: book.Author.text,
       // TODO validate if it is a date
       publish_date:
-        book['Publish date'] &&
-        new Date(book['Publish date'].text).toISOString().slice(0, 10),
+        book['Publish date'] && new Date(book['Publish date'].text).toISOString().slice(0, 10),
       wiki_page: page,
     };
   });
@@ -66,19 +57,19 @@ const fetchAndMergeWithDetailInfo = async (fetchTextFn, basicBookInfoList) => {
       }
       const templateTop = detailDocument.template('Top');
       let canonicity = '';
-      if(templateTop && templateTop.wiki) {
+      if (templateTop && templateTop.wiki) {
         canonicity = templateTop.wiki.indexOf('|can|') !== -1 ? 'canon' : 'legends';
       }
 
       const detail = template.json();
       return mergeObjects(basicBookInfo, {
-              illustrator: detail.illustrator || '',
-              publisher: detail.publisher || '',
-              isbn: detail.isbn || '',
-              pages: +detail.pages || '',
-              timeline: (detail.timeline && he.decode(detail.timeline)) || '',
-              canonicity
-            });
+        illustrator: detail.illustrator || '',
+        publisher: detail.publisher || '',
+        isbn: detail.isbn || '',
+        pages: +detail.pages || '',
+        timeline: (detail.timeline && he.decode(detail.timeline)) || '',
+        canonicity,
+      });
     })
   );
 
@@ -100,9 +91,7 @@ const fetchAndMergeWithImageUrlInfo = async (fetchTextFn, bookInfoList) => {
       }
 
       const dom = new JSDOM(detailText);
-      const thumbnail = dom.window.document.querySelector(
-        '.image-thumbnail img'
-      );
+      const thumbnail = dom.window.document.querySelector('.image-thumbnail img');
 
       const url = (thumbnail && thumbnail.src) || '';
 
@@ -115,19 +104,19 @@ const fetchAndMergeWithImageUrlInfo = async (fetchTextFn, bookInfoList) => {
   return booksWithImageUrlsList;
 };
 
-export const readBooks = async (fetchTextFn) => {
+const readBooks = async (fetchTextFn) => {
   const wikiText = await fetchTextFn('List_of_future_books');
 
-  if(!wikiText){
+  if (!wikiText) {
     throw Error('Error when obtaining list of books');
   }
   const document = wtf(wikiText);
 
   let basicBookInfoList;
 
-  try{
+  try {
     basicBookInfoList = fetchBasicInfo(document);
-  }catch(err){
+  } catch (err) {
     throw Error('Error when obtaining details of books');
   }
 
@@ -143,3 +132,5 @@ export const readBooks = async (fetchTextFn) => {
 
   return booksWithImageUrlsList;
 };
+
+export default readBooks;

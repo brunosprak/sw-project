@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "node  --es-module-specifier-resolution=node  index.js",
-    "batch": "node --es-module-specifier-resolution=node ./lib/update-files.js",
+    "lint": "eslint src/* ./index.js",
+    "batch": "node --es-module-specifier-resolution=node ./src/update-files.js",
     "test": "jest"
   },
   "keywords": [],
   "author": "",
   "type": "module",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
@@ -25,6 +26,16 @@
     "@babel/node": "^7.16.0",
     "@babel/plugin-transform-modules-commonjs": "^7.16.0",
     "@types/jest": "^27.0.3",
-    "jest": "^27.4.3"
+    "eslint": "^8.5.0",
+    "eslint-config-airbnb": "^19.0.2",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jest": "^25.3.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "jest": "^27.4.3",
+    "prettier": "^2.5.1"
   }
 }

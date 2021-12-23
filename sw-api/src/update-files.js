@@ -1,14 +1,14 @@
-import { readBooks } from './read-books';
-import { fetchUrlAsText, saveToFile, downloadUrl } from './common/utils';
 import path from 'path';
 import filenamify from 'filenamify';
 import { existsSync } from 'fs';
 
+import readBooks from './read-books';
+import { fetchUrlAsText, saveToFile, downloadUrl } from './common/utils';
+
 const WIKI_BASEURL = 'https://starwars.fandom.com/wiki/';
 
 const books = await readBooks(async (titlePage, format = 'wiki') => {
-  const url =
-    WIKI_BASEURL + titlePage + (format === 'wiki' ? '?action=raw' : '');
+  const url = WIKI_BASEURL + titlePage + (format === 'wiki' ? '?action=raw' : '');
   const pageContent = await fetchUrlAsText(url);
   return pageContent;
 });
@@ -19,11 +19,7 @@ books.forEach(async (book) => {
   }
   const imageURL = book.url;
   if (imageURL) {
-    const filePath = path.resolve(
-      'data',
-      'cover',
-      filenamify(book.wiki_page) + '.jpg'
-    );
+    const filePath = path.resolve('data', 'cover', `${filenamify(book.wiki_page)}.jpg`);
     // TODO if file size is zero, execute as well
     //  if the file has a new content (url?), too
     if (!existsSync(filePath)) {
@@ -33,7 +29,7 @@ books.forEach(async (book) => {
 });
 
 books.forEach((book) => {
-  delete book.url;
+  delete book.url; // eslint-disable-line no-param-reassign
 });
 
 saveToFile(JSON.stringify(books), path.resolve('data', 'books.json'));
