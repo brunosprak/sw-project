@@ -52,6 +52,16 @@ export const mergeObjects = (object1, object2) => {
   throw Error('Incompatible types to merge!');
 };
 
+export const createEtagFromStats = (fsStats) => {
+  if (!fsStats) {
+    throw Error('Stats is null!');
+  }
+  var mtime = fsStats.mtime.getTime().toString(16);
+  var size = fsStats.size.toString(16);
+  const etag = `W/"${size}-${mtime}"`;
+  return etag;
+};
+
 export const downloadUrl = async (url, dest, cb) => {
   const file = fs.createWriteStream(dest);
 
