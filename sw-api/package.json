@@ -2,11 +2,11 @@
   "name": "sw-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "NODE_ENV=production node  --es-module-specifier-resolution=node  index.js",
-    "start:dev": "node  --es-module-specifier-resolution=node  index.js",
-    "lint": "eslint src/**/* ./index.js",
+    "start": "NODE_ENV=production node  --es-module-specifier-resolution=node  app.js",
+    "start:dev": "node  --es-module-specifier-resolution=node  app.js",
+    "lint": "eslint src/**/* ./app.js",
     "batch": "node --es-module-specifier-resolution=node ./src/batch/update-files.js",
     "test": "jest"
   },
