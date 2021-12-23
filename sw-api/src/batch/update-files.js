@@ -2,16 +2,10 @@ import path from 'path';
 import filenamify from 'filenamify';
 import { existsSync } from 'fs';
 
-import readBooks from './read-books';
-import { fetchUrlAsText, saveToFile, downloadUrl } from './common/utils';
+import readBooks from '../services/read-books';
+import { saveToFile, downloadUrl } from '../services/utils';
 
-const WIKI_BASEURL = 'https://starwars.fandom.com/wiki/';
-
-const books = await readBooks(async (titlePage, format = 'wiki') => {
-  const url = WIKI_BASEURL + titlePage + (format === 'wiki' ? '?action=raw' : '');
-  const pageContent = await fetchUrlAsText(url);
-  return pageContent;
-});
+const books = await readBooks();
 
 books.forEach(async (book) => {
   if (!book.wiki_page) {
@@ -20,8 +14,8 @@ books.forEach(async (book) => {
   const imageURL = book.url;
   if (imageURL) {
     const filePath = path.resolve('data', 'cover', `${filenamify(book.wiki_page)}.jpg`);
-    // TODO if file size is zero, execute as well
-    //  if the file has a new content (url?), too
+    // TODO implement: if file size is zero, execute as well
+    //  and also when the file has a new content (or url)
     if (!existsSync(filePath)) {
       await downloadUrl(imageURL, filePath, () => {});
     }

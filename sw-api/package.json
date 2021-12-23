@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node  --es-module-specifier-resolution=node  index.js",
+    "start": "NODE_ENV=production node  --es-module-specifier-resolution=node  index.js",
+    "start:dev": "node  --es-module-specifier-resolution=node  index.js",
     "lint": "eslint src/**/* ./index.js",
-    "batch": "node --es-module-specifier-resolution=node ./src/update-files.js",
+    "batch": "node --es-module-specifier-resolution=node ./src/batch/update-files.js",
     "test": "jest"
   },
   "keywords": [],

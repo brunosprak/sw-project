@@ -6,6 +6,7 @@ export const sleep = (ms) =>
   new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
+
 export const fetchUrlAsText = async (url) => {
   const response = await fetch(url);
   const pageText = await response.text();
@@ -17,6 +18,7 @@ export const saveToFile = (content, filePath) => {
 };
 
 export const isEmpty = (object) => Object.keys(object).length === 0;
+
 export const mergeObjects = (object1, object2) => {
   if ((!object1 || isEmpty(object1)) && (!object2 || isEmpty(object2))) {
     return {};

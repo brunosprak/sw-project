@@ -1,7 +1,9 @@
 import wtf from 'wtf_wikipedia';
 import { JSDOM } from 'jsdom';
 import he from 'he';
-import { mergeObjects } from './common/utils';
+import { mergeObjects, fetchUrlAsText } from './utils';
+
+const WIKI_BASEURL = 'https://starwars.fandom.com/wiki/';
 
 const fetchBasicInfo = (document) => {
   const tables = document.tables();
@@ -10,7 +12,7 @@ const fetchBasicInfo = (document) => {
   }
   const booksTable = tables[0].json();
 
-  // wtf has a bug with titled containing two ':'. Skipping them for now.
+  // TODO FIX wtf has a bug with titled containing two ':'. Skipping them for now.
   const filteredBooks = booksTable.filter((book) => book.Title.text.split(':').length < 3);
 
   return filteredBooks.map((book) => {
@@ -38,8 +40,6 @@ const fetchBasicInfo = (document) => {
     };
   });
 };
-
-// const fetchTextFn = (titlePage, format = 'wiki') => {};
 
 const fetchAndMergeWithDetailInfo = async (fetchTextFn, basicBookInfoList) => {
   if (!basicBookInfoList) {
@@ -104,7 +104,13 @@ const fetchAndMergeWithImageUrlInfo = async (fetchTextFn, bookInfoList) => {
   return booksWithImageUrlsList;
 };
 
-const readBooks = async (fetchTextFn) => {
+const readBooks = async () => {
+  const fetchTextFn = async (titlePage, format = 'wiki') => {
+    const url = WIKI_BASEURL + titlePage + (format === 'wiki' ? '?action=raw' : '');
+    const pageContent = await fetchUrlAsText(url);
+    return pageContent;
+  };
+
   const wikiText = await fetchTextFn('List_of_future_books');
 
   if (!wikiText) {

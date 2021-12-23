@@ -86,3 +86,44 @@ export const DARK_PLAGUES_TEXT = `{{Top|new|real|title=''{{PAGENAME}}''}}
     |series=
     |preceded by=''[[The Tenebrous Way]]''
     |followed by=''[[Legacy of the Jedi]]''}}`;
+
+export const fetchMock = async (url) => {
+  const [titlePage, action] = url.split('/')[4].split('?');
+  const format = action && action.indexOf('raw') !== -1 ? 'wiki' : 'html';
+
+  const response = (text) => ({
+    text: () => text,
+  });
+
+  if (titlePage === 'List_of_future_books' && format === 'wiki') {
+    return response(BOOKS_WIKI_TEXT);
+  }
+
+  if (titlePage === 'BB-8_and_the_Snow_Monster') {
+    if (format === 'wiki') {
+      return response(BB8_WIKI_TEXT);
+    }
+    return response('<html>No images in this html</html>');
+  }
+
+  if (titlePage === 'Darth_Plagueis_(novel)') {
+    if (format === 'wiki') {
+      return response(DARK_PLAGUES_TEXT);
+    }
+    return response('<html>No images in this html</html>');
+  }
+
+  if (titlePage === 'Star_Wars:_Be_More_Boba_Fett') {
+    if (format === 'wiki') {
+      return response(BOBA_FETT_WIKI_TEXT);
+    }
+
+    return response(`<a href="https://static.wikia.nocookie.net/starwars/images/c/c0/Be_More_Boba_Fett_cover.jpg/revision/latest?cb=20210723182158" class="image image-thumbnail"
+              title="">
+               <img src="https://static.wikia.nocookie.net/starwars/images/c/c0/Be_More_Boba_Fett_cover.jpg/revision/latest/scale-to-width-down/500?cb=20210723182158" srcset="https://static.wikia.nocookie.net/starwars/images/c/c0/Be_More_Boba_Fett_cover.jpg/revision/latest/scale-to-width-down/500?cb=20210723182158 1x, https://static.wikia.nocookie.net/starwars/images/c/c0/Be_More_Boba_Fett_cover.jpg/revision/latest/scale-to-width-down/1000?cb=20210723182158 2x" class="pi-image-thumbnail" alt="" width="270" height="368"
+                    data-image-key="Be_More_Boba_Fett_cover.jpg" data-image-name="Be More Boba Fett cover.jpg"/>
+           </a>`);
+  }
+
+  throw Error(`Page not found: ${titlePage}`);
+};
