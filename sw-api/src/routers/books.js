@@ -6,25 +6,13 @@ import { createEtagFromStats } from '../services/utils';
 
 const router = express.Router();
 
-router.get('/future', (req, res) => {
+router.get('/', (req, res) => {
   const filePath = path.resolve('data', 'books.json');
-  let fileSizeInBytes;
 
-  try {
-    const stats = fs.statSync(filePath);
-    fileSizeInBytes = stats.size;
+  const allBookRaw = fs.readFileSync(filePath);
+  const allBooks = JSON.parse(allBookRaw);
 
-    res.writeHead(200, {
-      'Content-Type': 'application/json',
-      'Content-Length': fileSizeInBytes,
-      'Cache-Control': 'public,max-age=300,s-maxage=900',
-    });
-
-    const readStream = fs.createReadStream(filePath);
-    readStream.pipe(res);
-  } catch (err) {
-    res.contentType('application/json').send('[]');
-  }
+  res.status(200).json(allBooks);
 });
 
 router.get('/:wiki_page/cover', (req, res) => {
