@@ -6,17 +6,26 @@ import { createEtagFromStats } from '../services/utils';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+const allBooks = () => {
   const filePath = path.resolve('data', 'books.json');
-
   const allBookRaw = fs.readFileSync(filePath);
   const allBooks = JSON.parse(allBookRaw);
+  return allBooks;
+};
 
-  res.status(200).json(allBooks);
+const bookByIsbn = (isbn) => {
+  const books = allBooks();
+  return books.find((book) => book.isbn === isbn);
+};
+
+router.get('/', (req, res) => {
+  const books = allBooks();
+  res.status(200).json(books);
 });
 
-router.get('/:wiki_page/cover', (req, res) => {
-  const fileName = `${filenamify(req.params.wiki_page)}.jpg`;
+router.get('/:isbn/cover', (req, res) => {
+  const book = bookByIsbn(req.params.isbn);
+  const fileName = `${filenamify(book.wiki_page)}.jpg`;
   const filePath = path.resolve('data', 'cover', `${fileName}`);
   let fileSizeInBytes;
 
