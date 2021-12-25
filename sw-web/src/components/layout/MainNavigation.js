@@ -22,8 +22,8 @@ const MainNavigation = () => (
       </div>
       <div id="navbarMenu" className="navbar-menu">
         <div className="navbar-end">
-          <Link className="navbar-item " to="/future-books">
-            Future books
+          <Link className="navbar-item " to="/upcoming-books">
+            Upcoming books
           </Link>
           {/* <div class="navbar-item has-dropdown is-hoverable">
               <a class="navbar-link">Account</a>

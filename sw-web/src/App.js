@@ -7,11 +7,11 @@ function App() {
   return (
     <Layout>
       <Routes>
-        <Route path="/" element={<Navigate replace to="/future-books" />} />
+        <Route path="/" element={<Navigate replace to="/upcoming-books" />} />
 
         {/* <Route path='/home' element={<Home />} /> */}
 
-        <Route path="/future-books" element={<FutureBooks />} />
+        <Route path="/upcoming-books" element={<FutureBooks />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>
