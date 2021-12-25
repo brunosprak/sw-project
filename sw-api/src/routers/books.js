@@ -24,7 +24,6 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:isbn/cover', (req, res) => {
-  sleep(2000);
   const book = bookByIsbn(req.params.isbn);
   const fileName = `${filenamify(book.wiki_page)}.jpg`;
   const filePath = path.resolve('data', 'cover', `${fileName}`);

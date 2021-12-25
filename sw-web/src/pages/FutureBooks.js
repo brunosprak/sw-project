@@ -20,7 +20,7 @@ const FutureBooks = () => {
 
   if (status === 'pending') {
     return (
-      <div className="container content ">
+      <div className="container content">
         <LoadingSpinner />
       </div>
     );

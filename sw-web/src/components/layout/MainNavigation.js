@@ -1,31 +1,42 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import StarWarsIcon from './StarWarsIcon';
 
-const MainNavigation = () => (
-  <nav className="navbar" style={{ minHeight: 'unset', height: '12vh' }}>
-    <div className="container">
-      <div className="navbar-brand ">
-        <Link className="navbar-item" to="/">
-          <StarWarsIcon width="100%" height="15vh" />
-        </Link>
-        <button
-          type="button"
-          className="navbar-burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarMenu"
-        >
-          <span aria-hidden="true" />
-          <span aria-hidden="true" />
-          <span aria-hidden="true" />
-        </button>
-      </div>
-      <div id="navbarMenu" className="navbar-menu">
-        <div className="navbar-end">
-          <Link className="navbar-item " to="/upcoming-books">
-            Upcoming books
+const MainNavigation = () => {
+  const [isMenuActiveMobile, setIsMenuActiveMobile] = useState(false);
+
+  const burgerClickHandler = () => {
+    setIsMenuActiveMobile(!isMenuActiveMobile);
+  };
+
+  return (
+    <nav className="navbar" style={{ minHeight: 'unset' }}>
+      <div className="container">
+        <div className="navbar-brand " style={{ height: '13vh' }}>
+          <Link className="navbar-item" to="/">
+            <StarWarsIcon width="100%" height="12vh" />
           </Link>
-          {/* <div class="navbar-item has-dropdown is-hoverable">
+          <button
+            type="button"
+            onClick={burgerClickHandler}
+            className="navbar-burger burger"
+            aria-label="menu"
+            aria-expanded="false"
+            data-target="navbarMenu"
+            style={{ height: '100%' }}
+          >
+            <span aria-hidden="true" />
+            <span aria-hidden="true" />
+            <span aria-hidden="true" />
+          </button>
+        </div>
+
+        <div id="navbarMenu" className={`navbar-menu ${isMenuActiveMobile ? 'is-active' : ''}`}>
+          <div className="navbar-end">
+            <Link className="navbar-item " to="/upcoming-books">
+              Upcoming books
+            </Link>
+            {/* <div class="navbar-item has-dropdown is-hoverable">
               <a class="navbar-link">Account</a>
               <div class="navbar-dropdown">
                 <a class="navbar-item">Dashboard</a>
@@ -35,9 +46,10 @@ const MainNavigation = () => (
                 <div class="navbar-item">Logout</div>
               </div>
             </div> */}
+          </div>
         </div>
       </div>
-    </div>
-  </nav>
-);
+    </nav>
+  );
+};
 export default MainNavigation;
