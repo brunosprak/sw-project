@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import express from 'express';
 import filenamify from 'filenamify';
-import { createEtagFromStats } from '../services/utils';
+import { sleep, createEtagFromStats } from '../services/utils';
 
 const router = express.Router();
 
@@ -24,6 +24,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:isbn/cover', (req, res) => {
+  sleep(2000);
   const book = bookByIsbn(req.params.isbn);
   const fileName = `${filenamify(book.wiki_page)}.jpg`;
   const filePath = path.resolve('data', 'cover', `${fileName}`);

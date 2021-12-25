@@ -1,7 +1,5 @@
-
-.icon
-{
-  font-size: 0.6em; /* change icon size */
+.icon {
+  font-size: 0.4em; /* change icon size */
   display: block;
   position: relative;
   width: 7em;
@@ -9,7 +7,8 @@
   background-color: #fff;
   /* margin: 2em auto; */
   border-radius: 0.6em;
-  box-shadow: 0 1px 0 #bdbdbd, 0 2px 0 #fff, 0 3px 0 #bdbdbd, 0 4px 0 #fff, 0 5px 0 #bdbdbd, 0 0 0 1px #bdbdbd;
+  box-shadow: 0 1px 0 #bdbdbd, 0 2px 0 #fff, 0 3px 0 #bdbdbd, 0 4px 0 #fff, 0 5px 0 #bdbdbd,
+    0 0 0 1px #bdbdbd;
   overflow: hidden;
   /* -webkit-backface-visibility: hidden;
   -webkit-transform: rotate(0deg) skewY(0deg);
@@ -17,8 +16,7 @@
   transform-origin: 50% 10%; */
 }
 
-.icon *
-{
+.icon * {
   display: block;
   width: 100%;
   font-size: 1.2em;
@@ -27,8 +25,7 @@
   text-align: center;
 }
 
-.icon strong
-{
+.icon strong {
   position: absolute;
   top: 0;
   padding: 0.4em 0;
@@ -45,8 +42,7 @@
   color: #fd9f1b;
 } */
 
-.icon span
-{
+.icon span {
   width: 100%;
   font-size: 3.3em;
   letter-spacing: -0.05em;

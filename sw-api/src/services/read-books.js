@@ -57,8 +57,19 @@ const fetchAndMergeWithDetailInfo = async (fetchTextFn, basicBookInfoList) => {
       }
       const templateTop = detailDocument.template('Top');
       let canonicity = '';
+
       if (templateTop && templateTop.wiki) {
-        canonicity = templateTop.wiki.indexOf('|can|') !== -1 ? 'canon' : 'legends';
+        const canonRegex = /\|can\|/;
+        const legendsRegex =
+          /\|leg\||\|pre\||\|btr\||\|old\||\|imp\||\|reb\||\|new\||\|njo\||\|lgc\||\|inf\|/;
+
+        if (canonRegex.test(templateTop.wiki)) {
+          canonicity = 'canon';
+        } else if (legendsRegex.test(templateTop.wiki)) {
+          canonicity = 'legends';
+        } else {
+          canonicity = 'other';
+        }
       }
 
       const detail = template.json();

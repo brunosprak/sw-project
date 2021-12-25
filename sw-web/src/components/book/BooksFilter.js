@@ -1,67 +1,72 @@
-import { useState } from 'react';
-
-const BooksFilter = () => {
-  const [isOnlyCanon, setIsOnlyCanon] = useState(false);
-  const [isOnlyLegends, setIsOnlyLegends] = useState(false);
-  const [isNoReprints, setIsNoReprints] = useState(false);
-
+const BooksFilter = ({ numberOfBooks, onChange }) => {
   const switchChangeHandler = (event) => {
-    if (event.target.id === 'onlyCanonSwitch') {
-      setIsOnlyCanon(event.target.checked);
-    } else if (event.target.id === 'onlyCanonSwitch') {
-      setIsOnlyLegends(event.target.checked);
-    } else if (event.target.id === 'noReprintsSwitch') {
-      setIsNoReprints(event.target.checked);
-    }
+    onChange({ type: event.target.name, value: event.target.checked });
   };
 
   return (
-    <div class='level'>
-      <div class='level-item has-text-centered'>
-        <div class='field'>
+    <div className="level">
+      <div className="level-item has-text-centered">
+        <div className="field">
+          <strong>{numberOfBooks} books</strong>
+        </div>
+      </div>
+      <div className="level-item has-text-centered">
+        <div className="field">
           <input
-            type='checkbox'
-            name='onlyCanonSwitch'
-            id='onlyCanonSwitch'
-            class='switch is-info is-rounded'
+            type="checkbox"
+            name="onlyCanon"
+            id="onlyCanonSwitch"
+            className="switch is-info is-rounded"
             onChange={switchChangeHandler}
           />
-          <label for='onlyCanonSwitch'>
+          <label htmlFor="onlyCanonSwitch">
             Show only
-            <span className='tag is-info is-light  is-medium'>canon</span> books
+            <span className="tag is-info is-light  is-medium">canon</span>
           </label>
         </div>
       </div>
-      <div class='level-item has-text-centered'>
-        <div class='field'>
+      <div className="level-item has-text-centered">
+        <div className="field">
           <input
-            type='checkbox'
-            name='onlyLegendsSwitch'
-            id='onlyLegendsSwitch'
-            class='switch is-danger is-rounded'
+            type="checkbox"
+            name="onlyLegends"
+            id="onlyLegendsSwitch"
+            className="switch is-danger is-rounded"
             onChange={switchChangeHandler}
           />
-          <label for='onlyLegendsSwitch'>
+          <label htmlFor="onlyLegendsSwitch">
             Show only
-            <span className='tag is-danger  is-light is-medium'>
-              legends
-            </span>{' '}
-            books
+            <span className="tag is-danger  is-light is-medium">legends</span>
           </label>
         </div>
       </div>
-      <div class='level-item has-text-centered'>
-        <div class='field'>
+      <div className="level-item has-text-centered">
+        <div className="field">
           <input
-            type='checkbox'
-            name='noReprintsSwitch'
-            id='noReprintsSwitch'
-            class='switch is-default is-rounded'
+            type="checkbox"
+            name="onlyOther"
+            id="onlyOtherSwitch"
+            className="switch is-rounded"
             onChange={switchChangeHandler}
           />
-          <label for='noReprintsSwitch'>
+          <label htmlFor="onlyOtherSwitch">
+            Show only
+            <span className="tag  is-medium">other</span>
+          </label>
+        </div>
+      </div>
+      <div className="level-item has-text-centered">
+        <div className="field">
+          <input
+            type="checkbox"
+            name="noReprints"
+            id="noReprintsSwitch"
+            className="switch is-default is-rounded"
+            onChange={switchChangeHandler}
+          />
+          <label htmlFor="noReprintsSwitch">
             Don't show
-            <span className='tag is-danger is-light is-medium'>reprints</span>
+            <span className="tag is-danger is-light is-medium">reprints</span>
           </label>
         </div>
       </div>

@@ -30,4 +30,4 @@ npm test
 - Express
 - Prettier + ESLint + airbnb
 - wtf_wikipedia
-- "Aurek-Besh" font.
+- "AurebeshAF-canon" font [link](https://aurekfonts.github.io/index.html?font=AurebeshAF).

@@ -1,12 +1,10 @@
 import MainNavigation from './MainNavigation';
 
-const Layout = (props) => {
-  return (
-    <>
-      <MainNavigation />
-      <main >{props.children}</main>
-    </>
-  );
-};
+const Layout = (props) => (
+  <>
+    <MainNavigation />
+    <main>{props.children}</main>
+  </>
+);
 
 export default Layout;
