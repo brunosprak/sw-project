@@ -31,3 +31,6 @@ npm test
 - Prettier + ESLint + airbnb
 - wtf_wikipedia
 - "AurebeshAF-canon" font [link](https://aurekfonts.github.io/index.html?font=AurebeshAF).
+
+## Features
+- Lazy loading of images with fallback and different sizes.
