@@ -23,7 +23,7 @@ const Book = (props) => {
           <div className="">
             <figure className="image">
               <ImageWithFallback
-                src={getImageUrl(props.book.isbn)}
+                src={getImageUrl(props.book.isbn10)}
                 alt="Book cover"
                 width="500px"
                 height="230px"
@@ -50,14 +50,16 @@ const Book = (props) => {
         </div>
       </div>
       <footer className="card-footer">
-        <a
-          target="_blank"
-          rel="noreferrer"
-          href={`https://www.amazon.com/gp/search/?field-isbn=${props.book.isbn}`}
-          className="card-footer-item"
-        >
-          <AmazonIcon />
-        </a>
+        {props.book.isbn10 && (
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href={`https://www.amazon.com/dp/${props.book.isbn10}?tag=${process.env.REACT_APP_AMAZON_ID}`}
+            className="card-footer-item"
+          >
+            <AmazonIcon />
+          </a>
+        )}
         <a
           target="_blank"
           rel="noreferrer"

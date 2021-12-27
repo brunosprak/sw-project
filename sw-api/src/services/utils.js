@@ -1,6 +1,7 @@
 import https from 'https';
 import http from 'http';
 import fs from 'fs';
+import { isbn as ISBN } from 'simple-isbn';
 
 export const sleep = (ms) =>
   new Promise((resolve) => {
@@ -13,8 +14,40 @@ export const fetchUrlAsText = async (url) => {
   return pageText;
 };
 
+export const toIsbn10 = (isbn) => {
+  if (!isbn) {
+    return null;
+  }
+  let isbn10;
+  if (ISBN.isValidIsbn10(isbn)) {
+    isbn10 = isbn;
+  } else if (ISBN.isValidIsbn13(isbn)) {
+    isbn10 = ISBN.toIsbn10(isbn);
+  }
+  return isbn10;
+};
+
+export const toIsbn13 = (isbn) => {
+  if (!isbn) {
+    return null;
+  }
+  let isbn13;
+  if (ISBN.isValidIsbn13(isbn)) {
+    isbn13 = isbn;
+  } else if (ISBN.isValidIsbn10(isbn)) {
+    isbn13 = ISBN.toIsbn13(isbn);
+  }
+  return isbn13;
+};
+
 export const saveToFile = (content, filePath) => {
   fs.writeFileSync(filePath, content);
+};
+
+export const mkdirSyncNested = (dir) => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
 };
 
 export const isEmpty = (object) => Object.keys(object).length === 0;

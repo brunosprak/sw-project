@@ -23,6 +23,7 @@
     "helmet": "^4.6.0",
     "jsdom": "^19.0.0",
     "morgan": "^1.10.0",
+    "simple-isbn": "^1.1.5",
     "wtf_wikipedia": "^9.0.2"
   },
   "devDependencies": {

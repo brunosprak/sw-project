@@ -70,6 +70,21 @@ const BooksFilter = ({ numberOfBooks, onChange }) => {
           </label>
         </div>
       </div>
+      <div className="level-item has-text-centered">
+        <div className="field">
+          <input
+            type="checkbox"
+            name="onlyReprints"
+            id="onlyReprintsSwitch"
+            className="switch is-default is-rounded"
+            onChange={switchChangeHandler}
+          />
+          <label htmlFor="onlyReprintsSwitch">
+            Only
+            <span className="tag is-danger is-light is-medium">reprints</span>
+          </label>
+        </div>
+      </div>
     </div>
   );
 };

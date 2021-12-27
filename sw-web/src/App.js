@@ -1,7 +1,7 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
 import NotFound from './pages/NotFound';
 import Layout from './components/layout/Layout';
-import FutureBooks from './pages/FutureBooks';
+import UpcomingBooks from './pages/UpcomingBooks';
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
 
         {/* <Route path='/home' element={<Home />} /> */}
 
-        <Route path="/upcoming-books" element={<FutureBooks />} />
+        <Route path="/upcoming-books" element={<UpcomingBooks />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>

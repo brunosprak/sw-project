@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react';
-import Book from '../components/book/Book';
+import Book from '../components/Book/Book';
 import useHttp from '../hooks/use-http';
 import { getFutureBooks } from '../lib/api';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
-import BooksFilter from '../components/book/BooksFilter';
+import BooksFilter from '../components/Book/BooksFilter';
 
 const title = 'List of upcoming books';
 
-const FutureBooks = () => {
+const UpcomingBooks = () => {
   const { sendRequest, status, data: BOOKS, error } = useHttp(getFutureBooks, true);
   const [isNoReprints, setIsNoReprints] = useState(false);
   const [isOnlyCanon, setIsOnlyCanon] = useState(false);
   const [isOnlyLegends, setIsOnlyLegends] = useState(false);
   const [isOnlyOther, setIsOnlyOther] = useState(false);
+  const [isOnlyReprints, setIsOnlyReprints] = useState(false);
 
   useEffect(() => {
     sendRequest();
@@ -20,44 +21,60 @@ const FutureBooks = () => {
 
   if (status === 'pending') {
     return (
-      <div className="container content">
+      <section className="section">
         <LoadingSpinner />
-      </div>
+      </section>
     );
   }
 
   if (error) {
-    return <p className="content">{error}</p>;
+    return (
+      <section className="section">
+        <p className="container content">{error} </p>
+      </section>
+    );
   }
+  const filterBooks = (books) => {
+    let filteredBooks = books.filter((book) => book !== null);
 
-  let filteredBooks = BOOKS.filter((book) => book !== null);
+    filteredBooks = filteredBooks.filter((book) => {
+      if (isNoReprints) {
+        return !book.reprint;
+      }
+      return true;
+    });
 
-  filteredBooks = filteredBooks.filter((book) => {
-    if (isNoReprints) {
-      return !book.reprint;
-    }
-    return true;
-  });
+    filteredBooks = filteredBooks.filter((book) => {
+      if (isOnlyReprints) {
+        return book.reprint;
+      }
+      return true;
+    });
 
-  filteredBooks = filteredBooks.filter((book) => {
-    if (isOnlyCanon) {
-      return book.canonicity === 'canon';
-    }
-    return true;
-  });
+    filteredBooks = filteredBooks.filter((book) => {
+      if (isOnlyCanon) {
+        return book.canonicity === 'canon';
+      }
+      return true;
+    });
 
-  filteredBooks = filteredBooks.filter((book) => {
-    if (isOnlyLegends) {
-      return book.canonicity === 'legends';
-    }
-    return true;
-  });
-  filteredBooks = filteredBooks.filter((book) => {
-    if (isOnlyOther) {
-      return book.canonicity === 'other';
-    }
-    return true;
-  });
+    filteredBooks = filteredBooks.filter((book) => {
+      if (isOnlyLegends) {
+        return book.canonicity === 'legends';
+      }
+      return true;
+    });
+    filteredBooks = filteredBooks.filter((book) => {
+      if (isOnlyOther) {
+        return book.canonicity === 'other';
+      }
+      return true;
+    });
+
+    return filteredBooks;
+  };
+
+  const filteredBooks = filterBooks(BOOKS);
 
   const numberOfColumns = 4;
   let booksInColumns = filteredBooks.map((_, i) => {
@@ -79,11 +96,13 @@ const FutureBooks = () => {
       setIsOnlyLegends(action.value);
     } else if (action.type === 'onlyOther') {
       setIsOnlyOther(action.value);
+    } else if (action.type === 'onlyReprints') {
+      setIsOnlyReprints(action.value);
     }
   };
 
   return (
-    <section className="">
+    <section className="section">
       <div className="container">
         <div className="hero is-primary block">
           <div className="hero-body " style={{ padding: '2rem 1.5rem' }}>
@@ -109,4 +128,4 @@ const FutureBooks = () => {
   );
 };
 
-export default FutureBooks;
+export default UpcomingBooks;

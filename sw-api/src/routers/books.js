@@ -13,9 +13,9 @@ const allBooks = () => {
   return allBooks;
 };
 
-const bookByIsbn = (isbn) => {
+const bookByIsbn10 = (isbn10) => {
   const books = allBooks();
-  return books.find((book) => book.isbn === isbn);
+  return books.find((book) => book.isbn10 === isbn10);
 };
 
 router.get('/', (req, res) => {
@@ -23,12 +23,12 @@ router.get('/', (req, res) => {
   res.status(200).json(books);
 });
 
-router.get('/:isbn/cover', (req, res) => {
-  const book = bookByIsbn(req.params.isbn);
+router.get('/:isbn10/cover', (req, res) => {
+  const book = bookByIsbn10(req.params.isbn10);
   const fileName = `${filenamify(book.wiki_page)}.jpg`;
   const filePath = path.resolve('data', 'cover', `${fileName}`);
   let fileSizeInBytes;
-
+  sleep(2000);
   try {
     if (!fs.existsSync(filePath)) {
       return res.status(404).end();

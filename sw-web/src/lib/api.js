@@ -1,4 +1,4 @@
-const API_BASE = 'http://sw.insprak.com:9001/';
+const API_BASE = process.env.REACT_APP_API_BASE;
 
 export function getImageUrl(isbn) {
   return `${API_BASE}books/${isbn}/cover`;

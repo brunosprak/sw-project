@@ -4,12 +4,15 @@ import booksRoutes from './src/routers/books';
 import morgan from 'morgan';
 import compression from 'compression';
 import helmet from 'helmet';
+import path from 'path';
+import fs from 'fs';
 
 const app = express();
 
-// if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
-app.use(morgan('combined'));
-// }
+// create a write stream (in append mode)
+var accessLogStream = fs.createWriteStream(path.resolve('access.log'), { flags: 'a' });
+app.use(morgan('combined', { stream: accessLogStream }));
+
 app.use(helmet());
 app.use(compression());
 

@@ -1,7 +1,7 @@
 import wtf from 'wtf_wikipedia';
 import { JSDOM } from 'jsdom';
 import he from 'he';
-import { mergeObjects, fetchUrlAsText } from './utils';
+import { mergeObjects, fetchUrlAsText, toIsbn10, toIsbn13 } from './utils';
 
 const WIKI_BASEURL = 'https://starwars.fandom.com/wiki/';
 
@@ -76,7 +76,8 @@ const fetchAndMergeWithDetailInfo = async (fetchTextFn, basicBookInfoList) => {
       return mergeObjects(basicBookInfo, {
         illustrator: detail.illustrator || '',
         publisher: detail.publisher || '',
-        isbn: detail.isbn || '',
+        isbn13: toIsbn13(detail.isbn) || '',
+        isbn10: toIsbn10(detail.isbn) || '',
         pages: +detail.pages || '',
         timeline: (detail.timeline && he.decode(detail.timeline)) || '',
         canonicity,
