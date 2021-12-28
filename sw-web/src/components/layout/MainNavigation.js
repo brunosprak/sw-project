@@ -12,9 +12,9 @@ const MainNavigation = () => {
   return (
     <nav className="navbar" style={{ minHeight: 'unset' }}>
       <div className="container">
-        <div className="navbar-brand " style={{ height: '13vh' }}>
+        <div className="navbar-brand " style={{ height: '9vh' }}>
           <Link className="navbar-item" to="/">
-            <StarWarsIcon width="100%" height="12vh" />
+            <StarWarsIcon width="100%" height="9vh" />
           </Link>
           <button
             type="button"

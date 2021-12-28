@@ -35,4 +35,10 @@ describe('Reading books', () => {
     expect(plagueisBook.wiki_page).toBe('Darth_Plagueis_(novel)');
     expect(plagueisBook.canonicity).toBe('legends');
   });
+
+  it('should calculate the canon eras', async () => {
+    const bb8Book = books.find((book) => book.title === 'BB-8 and the Snow Monster');
+    expect(bb8Book.canonicity).toBe('canon');
+    expect(bb8Book.era).toBe('canon/rotfo');
+  });
 });

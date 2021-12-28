@@ -2,12 +2,22 @@ import React, { useState } from 'react';
 import LoadingSpinner from './LoadingSpinner';
 import classes from './ImageWithFallback.module.css';
 
-const ImageWithFallback = ({ src, onFallback, alt, width = '200px', height = '200px' }) => {
+const ImageWithFallback = ({
+  src,
+  onFallback = () => {},
+  alt,
+  width = '100%',
+  height = '100%',
+  scale = '1.0',
+  loadingElement = <LoadingSpinner />,
+}) => {
   const [imgSrc, setImgSrc] = useState(src);
   const [isLoading, setIsLoading] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
   const [imageWidth, setImageWidth] = useState(width);
   const [imageHeight, setImageHeight] = useState(height);
+
+  console.log(src);
 
   const onErrorHandler = () => {
     setImgSrc(onFallback);
@@ -26,13 +36,13 @@ const ImageWithFallback = ({ src, onFallback, alt, width = '200px', height = '20
 
   return (
     <>
-      {isLoading && <LoadingSpinner />}
+      {isLoading && loadingElement}
       <img
         loading="lazy"
         className={`image ${isVisible ? classes.visible : classes.invisible}`}
-        src={imgSrc || onFallback}
+        src={imgSrc}
         alt={alt}
-        style={{ width: imageWidth, height: imageHeight }}
+        style={{ width: imageWidth, height: imageHeight, transform: `scale(${scale})` }}
         onLoad={onLoadHandler}
         onError={onErrorHandler}
       />

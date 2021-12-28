@@ -3,6 +3,19 @@ import http from 'http';
 import fs from 'fs';
 import { isbn as ISBN } from 'simple-isbn';
 
+const CANON_REGEX = /\|can\|/;
+const LEGENDS_REGEX =
+  /\|leg\||\|pre\||\|btr\||\|old\||\|imp\||\|reb\||\|new\||\|njo\||\|lgc\||\|inf\|/;
+
+const ERA_LIMITS = [
+  { canonicity: 'canon', start: 30, end: Number.POSITIVE_INFINITY, acronym: 'rotfo' },
+  { canonicity: 'canon', start: 4, end: 30, acronym: 'tnr' },
+  { canonicity: 'canon', start: -3, end: 4, acronym: 'aor' },
+  { canonicity: 'canon', start: -18, end: -3, acronym: 'rote' },
+  { canonicity: 'canon', start: -50, end: -18, acronym: 'fotj' },
+  { canonicity: 'canon', start: Number.NEGATIVE_INFINITY, end: -50, acronym: 'thr' },
+];
+
 export const sleep = (ms) =>
   new Promise((resolve) => {
     setTimeout(resolve, ms);
@@ -131,4 +144,77 @@ export const downloadUrl = async (url, dest, cb) => {
         reject();
       });
   });
+};
+
+export const timelineToEraByUnit = (timeline, unit, multipler) => {
+  const divisionBby = timeline.split(unit);
+
+  if (divisionBby && divisionBby.length >= 2) {
+    const divisionByDash = divisionBby[0].split('-');
+    const onlyNumbersRegex = /\D+/;
+    return multipler * Number.parseInt(divisionByDash[0].replace(onlyNumbersRegex, ''));
+  } else {
+    return null;
+  }
+};
+
+const timelineToYearCanon = (timeline) => {
+  if (!timeline) {
+    return '';
+  }
+  let year = timelineToEraByUnit(timeline, 'BBY', -1);
+  if (!year) {
+    year = timelineToEraByUnit(timeline, 'ABY', +1);
+  }
+  return year;
+};
+
+export const templateTopToCanonicityLegends = (templateTop = '') => {
+  let eraNameFound = templateTop.match(LEGENDS_REGEX);
+  if (!eraNameFound) {
+    return '';
+  }
+  eraNameFound = eraNameFound[0].replaceAll('|', '');
+
+  if (!eraNameFound) {
+    return '';
+  }
+
+  return `leg/${eraNameFound}`;
+};
+
+export const timelineToEra = (templateTop, canonicity, timeline) => {
+  if (canonicity === 'legends') {
+    return templateTopToCanonicityLegends(templateTop);
+  }
+  if (canonicity === 'canon') {
+    const year = timelineToYearCanon(timeline);
+
+    if (!year) {
+      return '';
+    }
+
+    const eraName = ERA_LIMITS.find((era) => year >= era.start && year < era.end);
+
+    if (!eraName) {
+      throw Error('Canon era not found!');
+    }
+
+    return `can/${eraName.acronym}`;
+  }
+  return '';
+};
+
+export const templateTopToCanonicityAndEra = (templateTop, timeline) => {
+  let canonicity = 'other';
+
+  if (CANON_REGEX.test(templateTop)) {
+    canonicity = 'canon';
+    return [canonicity, timelineToEra(templateTop, canonicity, timeline)];
+  }
+  if (LEGENDS_REGEX.test(templateTop)) {
+    canonicity = 'legends';
+    return [canonicity, timelineToEra(templateTop, canonicity, timeline)];
+  }
+  return [canonicity, ''];
 };

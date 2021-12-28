@@ -1,7 +1,13 @@
 import wtf from 'wtf_wikipedia';
 import { JSDOM } from 'jsdom';
 import he from 'he';
-import { mergeObjects, fetchUrlAsText, toIsbn10, toIsbn13 } from './utils';
+import {
+  mergeObjects,
+  fetchUrlAsText,
+  toIsbn10,
+  toIsbn13,
+  templateTopToCanonicityAndEra,
+} from './utils';
 
 const WIKI_BASEURL = 'https://starwars.fandom.com/wiki/';
 
@@ -55,32 +61,26 @@ const fetchAndMergeWithDetailInfo = async (fetchTextFn, basicBookInfoList) => {
       if (template == null) {
         return null;
       }
+
       const templateTop = detailDocument.template('Top');
-      let canonicity = '';
-
-      if (templateTop && templateTop.wiki) {
-        const canonRegex = /\|can\|/;
-        const legendsRegex =
-          /\|leg\||\|pre\||\|btr\||\|old\||\|imp\||\|reb\||\|new\||\|njo\||\|lgc\||\|inf\|/;
-
-        if (canonRegex.test(templateTop.wiki)) {
-          canonicity = 'canon';
-        } else if (legendsRegex.test(templateTop.wiki)) {
-          canonicity = 'legends';
-        } else {
-          canonicity = 'other';
-        }
-      }
-
       const detail = template.json();
+
+      const timeline = ((detail.timeline && he.decode(detail.timeline)) || '').replace('–', '-');
+
+      const [canonicity, era] =
+        timeline && templateTop && templateTop.wiki
+          ? templateTopToCanonicityAndEra(templateTop.wiki, timeline)
+          : ['other', ''];
+
       return mergeObjects(basicBookInfo, {
         illustrator: detail.illustrator || '',
         publisher: detail.publisher || '',
         isbn13: toIsbn13(detail.isbn) || '',
         isbn10: toIsbn10(detail.isbn) || '',
-        pages: +detail.pages || '',
-        timeline: (detail.timeline && he.decode(detail.timeline)) || '',
+        pages: Number.parseInt(detail.pages) || '',
+        timeline,
         canonicity,
+        era,
       });
     })
   );
