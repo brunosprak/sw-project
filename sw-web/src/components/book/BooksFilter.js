@@ -1,4 +1,3 @@
-import { constantCase } from 'constant-case';
 import { useState } from 'react';
 
 import EraFilterButton from '../Button/EraFilterButton';
@@ -170,7 +169,7 @@ const BooksFilter = ({ onChange, canonicity, reprint }) => {
         )}
         {canonicity === 'legends' && (
           <div className="level level-left  ">
-            <div className="mr-4">
+            <div className="mr-4" name>
               <strong>Legends eras:</strong>
             </div>
             <div className="columns is-vcentered is-multiline ">
