@@ -23,11 +23,12 @@ const Book = (props) => {
           <div className="">
             <figure className="image">
               <ImageWithFallback
-                src={getImageUrl(props.book.isbn10)}
+                src={props.book.isbn10 ? getImageUrl(props.book.isbn10) : fallbackHandler()}
                 alt="Book cover"
                 width="500px"
                 height="230px"
                 onFallback={fallbackHandler}
+                lazy
               />
             </figure>
           </div>

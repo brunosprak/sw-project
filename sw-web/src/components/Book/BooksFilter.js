@@ -1,40 +1,53 @@
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import { getEraNamesByCanonicity } from '../../lib/api';
 import EraFilterButton from '../Button/EraFilterButton';
+import { bookFilterActions } from '../../store/book-filter';
 
-const BooksFilter = ({ onChange, canonicity, reprint, activeEra }) => {
+const BooksFilter = () => {
   const [showFiltersMobile, setShowFiltersMobile] = useState(false);
+  const { canonicity, era: activeEra, reprint } = useSelector((state) => state.bookFilter);
+  const dispatch = useDispatch();
 
   const switchChangeHandler = (event) => {
     if (event.target.name === 'onlyCanon') {
-      return onChange({ type: 'ONLY_CANONICITY', value: event.target.checked ? 'canon' : '' });
+      return dispatch(
+        bookFilterActions.filterByCanonicity({ value: event.target.checked ? 'canon' : '' })
+      );
     }
 
     if (event.target.name === 'onlyLegends') {
-      return onChange({ type: 'ONLY_CANONICITY', value: event.target.checked ? 'legends' : '' });
+      return dispatch(
+        bookFilterActions.filterByCanonicity({ value: event.target.checked ? 'legends' : '' })
+      );
     }
 
     if (event.target.name === 'onlyOther') {
-      return onChange({ type: 'ONLY_CANONICITY', value: event.target.checked ? 'other' : '' });
+      return dispatch(
+        bookFilterActions.filterByCanonicity({ value: event.target.checked ? 'other' : '' })
+      );
     }
 
     if (event.target.name === 'onlyReprints') {
-      return onChange({ type: 'ONLY_REPRINT', value: event.target.checked ? 'reprint' : '' });
+      return dispatch(
+        bookFilterActions.filterByReprint({ value: event.target.checked ? 'reprint' : '' })
+      );
     }
 
     if (event.target.name === 'noReprints') {
-      return onChange({ type: 'ONLY_REPRINT', value: event.target.checked ? 'noreprint' : '' });
+      return dispatch(
+        bookFilterActions.filterByReprint({ value: event.target.checked ? 'noreprint' : '' })
+      );
     }
 
     return false;
   };
 
-  const eraClickHandler = (action) => {
-    onChange(action);
-  };
-
   const CANON_ERAS = getEraNamesByCanonicity('canon');
   const LEGENDS_ERAS = getEraNamesByCanonicity('legends');
+
+  const ERAS = { legends: LEGENDS_ERAS, canon: CANON_ERAS };
 
   const toggleFiltersClickHandler = () => {
     setShowFiltersMobile(!showFiltersMobile);
@@ -173,42 +186,19 @@ const BooksFilter = ({ onChange, canonicity, reprint, activeEra }) => {
             </div>
           </div>
         </div>
-        {canonicity === 'canon' && (
-          <div className="level level-left">
-            <div className="mr-4">
-              <strong>Canon eras:</strong>
-            </div>
-            <div className="columns is-vcentered is-multiline ">
-              {CANON_ERAS.map((canonEra) => (
-                <div key={canonEra.id} className="column  ">
-                  <EraFilterButton
-                    id={canonEra.id}
-                    active={activeEra === canonEra.id}
-                    label={canonEra.label}
-                    onClick={eraClickHandler}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-        {canonicity === 'legends' && (
-          <div className="level level-left  ">
-            <div className="mr-4" name>
-              <strong>Legends eras:</strong>
-            </div>
-            <div className="columns is-vcentered is-multiline ">
-              {LEGENDS_ERAS.map((canonEra) => (
-                <div key={canonEra.id} className="column  ">
-                  <EraFilterButton
-                    id={canonEra.id}
-                    active={activeEra === canonEra.id}
-                    label={canonEra.label}
-                    onClick={eraClickHandler}
-                  />
-                </div>
-              ))}
-            </div>
+        {ERAS[canonicity] && (
+          <div>
+            <strong>Eras:</strong>
+            <span className="ml-4" />
+            {ERAS[canonicity].map((eraName) => (
+              <span key={eraName.id}>
+                <EraFilterButton
+                  id={eraName.id}
+                  active={activeEra === eraName.id}
+                  label={eraName.label}
+                />
+              </span>
+            ))}
           </div>
         )}
       </div>

@@ -9,7 +9,8 @@ const ImageWithFallback = ({
   width = '100%',
   height = '100%',
   scale = '1.0',
-  loadingElement = <LoadingSpinner />
+  loadingElement = <LoadingSpinner />,
+  lazy = false
 }) => {
   const [imgSrc, setImgSrc] = useState(src);
   const [isLoading, setIsLoading] = useState(true);
@@ -36,7 +37,7 @@ const ImageWithFallback = ({
     <>
       {isLoading && loadingElement}
       <img
-        loading="lazy"
+        loading={lazy ? 'lazy' : 'eager'}
         className={`image ${isVisible ? classes.visible : classes.invisible}`}
         src={imgSrc}
         alt={alt}

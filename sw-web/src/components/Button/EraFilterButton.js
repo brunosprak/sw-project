@@ -1,19 +1,24 @@
-import ImageWithFallback from '../ui/ImageWithFallback';
+import { useSelector, useDispatch } from 'react-redux';
 
-const EraFilterButton = ({ label, onClick, id, active }) => {
+import ImageWithFallback from '../ui/ImageWithFallback';
+import { bookFilterActions } from '../../store/book-filter';
+
+const EraFilterButton = ({ label, id }) => {
+  const dispatch = useDispatch();
+  const { era } = useSelector((state) => state.bookFilter);
+  const active = era === id;
+
   const linkClickHandler = () => {
     const newActiveValue = !active;
-    onClick({ type: 'ERA', value: newActiveValue ? id : '' });
+    dispatch(bookFilterActions.filterByEra({ value: newActiveValue ? id : '' }));
   };
 
   return (
     <button
       onClick={linkClickHandler}
       type="button"
-      style={{ overflowWrap: 'break-word', fontSize: '80%' }}
-      className={`button is-info is-flex is-align-items-center is-justify-content-center ${
-        active ? ' ' : ' is-light'
-      }`}
+      style={{ fontSize: '80%', margin: '0.2rem' }}
+      className={`button is-info  ${active ? ' ' : ' is-light'}`}
     >
       {id.includes('can/') && (
         <>

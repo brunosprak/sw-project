@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+
 import Book from '../components/Book/Book';
 import useHttp from '../hooks/use-http';
 import { getFutureBooks } from '../lib/api';
@@ -7,9 +9,12 @@ import BooksFilter from '../components/Book/BooksFilter';
 
 const UpcomingBooks = () => {
   const { sendRequest, status, data: BOOKS, error } = useHttp(getFutureBooks, true);
-  const [canonicityFilter, setCanonicityFilter] = useState('');
-  const [reprintFilter, setReprintFilter] = useState(false);
-  const [eraFilter, setEraFilter] = useState('');
+
+  const {
+    canonicity: canonicityFilter,
+    era: eraFilter,
+    reprint: reprintFilter
+  } = useSelector((state) => state.bookFilter);
 
   useEffect(() => {
     sendRequest();
@@ -62,27 +67,16 @@ const UpcomingBooks = () => {
 
   const filteredBooks = filterBooks(BOOKS);
 
-  const numberOfColumns = 4;
-  let booksInColumns = filteredBooks.map((_, i) => {
-    const start = 0 + i;
-    const end = 0 + i + numberOfColumns;
-    if (i % numberOfColumns === 0) {
-      return filteredBooks.slice(start, end);
-    }
-    return null;
-  });
-  booksInColumns = booksInColumns.filter((book) => book !== null);
-
-  const filterHandler = (action) => {
-    if (action.type === 'ONLY_REPRINT') {
-      setReprintFilter(action.value);
-    } else if (action.type === 'ONLY_CANONICITY') {
-      setCanonicityFilter(action.value);
-      setEraFilter('');
-    } else if (action.type === 'ERA') {
-      setEraFilter(action.value);
-    }
-  };
+  // const filterHandler = (action) => {
+  //   if (action.type === 'ONLY_REPRINT') {
+  //     setReprintFilter(action.value);
+  //   } else if (action.type === 'ONLY_CANONICITY') {
+  //     // setCanonicityFilter(action.value);
+  //     setEraFilter('');
+  //   } else if (action.type === 'ERA') {
+  //     setEraFilter(action.value);
+  //   }
+  // };
 
   const title = 'List of upcoming books';
 
@@ -97,25 +91,19 @@ const UpcomingBooks = () => {
             <p className="subtitle aurabesh">{title}</p>
           </div>
         </div>
-        <BooksFilter
-          onChange={filterHandler}
-          canonicity={canonicityFilter}
-          reprint={reprintFilter}
-          activeEra={eraFilter}
-        />
-        {booksInColumns.map((bookColumn, i) => (
-          <div
-            key={i} // eslint-disable-line react/no-array-index-key -- this is not an entity, but a layout column rendering.
-            className="columns"
-          >
-            {bookColumn.map((book) => (
-              <div key={book.title} className="column is-one-quarter">
-                <Book book={book} />
-              </div>
-            ))}
-          </div>
-        ))}
-        {booksInColumns.length === 0 && (
+        <BooksFilter reprint={reprintFilter} activeEra={eraFilter} />
+        {filteredBooks.length > 0 && (
+          <>
+            <div className="columns is-multiline">
+              {filteredBooks.map((book) => (
+                <div key={`${book.publish_date}/${book.title}`} className="column is-one-quarter">
+                  <Book book={book} />
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+        {filteredBooks.length === 0 && (
           <div className="box">
             <p>No books found with that criteria.</p>
           </div>
