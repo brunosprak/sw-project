@@ -33,6 +33,7 @@ router.get('/:canonicity/:acronym', (req, res) => {
 
     const readStream = fs.createReadStream(filePath);
     readStream.pipe(res);
+    readStream.unpipe(res);
   } catch (err) {
     return res.status(404).end();
   }

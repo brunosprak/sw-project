@@ -125,6 +125,7 @@ export const downloadUrl = async (url, dest, cb) => {
           return cb(`Response status was ${response.statusCode}`);
         }
         response.pipe(file);
+        response.unpipe(file);
         file.on('finish', () => {
           file.close(cb); // close() is async, call cb after close completes.
           resolve();
