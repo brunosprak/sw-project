@@ -7,11 +7,16 @@
 
 @font-face {
   font-family: 'Aurebesh AF';
-  src: local('Aurebesh AF'), url(./fonts/aurebeshaf-canon.woff) format('woff');
+  src: url('./fonts/AurebeshAF-Canon.eot');
+  src: local('Aurebesh AF'), url('./fonts/AurebeshAF-Canon.eot?#iefix') format('embedded-opentype'),
+    url('./fonts/AurebeshAF-Canon.woff2') format('woff2'),
+    url('./fonts/AurebeshAF-Canon.woff') format('woff'),
+    url('./fonts/AurebeshAF-Canon.ttf') format('truetype'),
+    url('./fonts/AurebeshAF-Canon.svg#AurebeshAF-Canon') format('svg');
 }
 
 .aurabesh {
-  font-family: 'Aurek-Besh';
+  font-family: 'Aurebesh AF';
   font-size: 12pt;
 }
 
