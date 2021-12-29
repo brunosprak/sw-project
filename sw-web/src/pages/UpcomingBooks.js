@@ -101,6 +101,7 @@ const UpcomingBooks = () => {
           onChange={filterHandler}
           canonicity={canonicityFilter}
           reprint={reprintFilter}
+          activeEra={eraFilter}
         />
         {booksInColumns.map((bookColumn, i) => (
           <div

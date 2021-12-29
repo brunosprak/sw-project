@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { getEraNamesByCanonicity } from '../../lib/api';
 import EraFilterButton from '../Button/EraFilterButton';
 
-const BooksFilter = ({ onChange, canonicity, reprint }) => {
-  const [activeEra, setActiveEra] = useState('');
+const BooksFilter = ({ onChange, canonicity, reprint, activeEra }) => {
   const [showFiltersMobile, setShowFiltersMobile] = useState(false);
 
   const switchChangeHandler = (event) => {
@@ -32,7 +31,6 @@ const BooksFilter = ({ onChange, canonicity, reprint }) => {
 
   const eraClickHandler = (action) => {
     onChange(action);
-    setActiveEra(action.value);
   };
 
   const CANON_ERAS = getEraNamesByCanonicity('canon');
