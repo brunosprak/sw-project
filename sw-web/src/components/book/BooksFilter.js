@@ -44,7 +44,7 @@ const BooksFilter = ({ onChange, canonicity, reprint }) => {
 
   const toggleFiltersKeydownHandler = (event) => {
     // this prevents this from scrolling down if space is pressed
-    if (event.keyCode === 13) {
+    if (event.keyCode === 13 || event.keyCode === 32) {
       setShowFiltersMobile(!showFiltersMobile);
     }
   };
