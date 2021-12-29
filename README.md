@@ -9,7 +9,8 @@ http://sw.insprak.com/
 ## How to start server
 
 ```
-npm start
+npm run start:prod (production)
+npm start (development)
 ```
 
 ## How to run job to capture data

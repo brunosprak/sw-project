@@ -26,7 +26,7 @@ describe('Reading books', () => {
     expect(bb8Book.author).toBe('Caitlin Kennedy');
     expect(bb8Book.publish_date).toBe('2023-02-07');
     expect(bb8Book.pages).toBe(64);
-    expect(bb8Book.timeline).toBe('34 ABY–35 ABY');
+    expect(bb8Book.timeline).toBe('34 ABY-35 ABY');
     expect(bb8Book.publisher).toBe('Disney–Lucasfilm Press');
     expect(bb8Book.illustrator).toBe('Brian Kesinger');
     expect(bb8Book.canonicity).toBe('canon');
@@ -39,6 +39,6 @@ describe('Reading books', () => {
   it('should calculate the canon eras', async () => {
     const bb8Book = books.find((book) => book.title === 'BB-8 and the Snow Monster');
     expect(bb8Book.canonicity).toBe('canon');
-    expect(bb8Book.era).toBe('canon/rotfo');
+    expect(bb8Book.era).toBe('can/rotfo');
   });
 });
