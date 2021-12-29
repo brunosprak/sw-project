@@ -38,8 +38,15 @@ const BooksFilter = ({ onChange, canonicity, reprint }) => {
   const CANON_ERAS = getEraNamesByCanonicity('canon');
   const LEGENDS_ERAS = getEraNamesByCanonicity('legends');
 
-  const toggleFiltersHandler = () => {
+  const toggleFiltersClickHandler = () => {
     setShowFiltersMobile(!showFiltersMobile);
+  };
+
+  const toggleFiltersKeydownHandler = (event) => {
+    // this prevents this from scrolling down if space is pressed
+    if (event.keyCode === 13) {
+      setShowFiltersMobile(!showFiltersMobile);
+    }
   };
 
   const closeFiltersHandler = () => {
@@ -48,22 +55,26 @@ const BooksFilter = ({ onChange, canonicity, reprint }) => {
 
   return (
     <>
-      <div className="box is-hidden-tablet has-text-centered">
-        <button
-          type="button"
-          className="button "
-          style={{ border: 'none' }}
-          onClick={toggleFiltersHandler}
+      {!showFiltersMobile && (
+        <div
+          role="button"
+          className="box is-hidden-tablet has-text-centered"
+          style={{ padding: '0' }}
+          onClick={toggleFiltersClickHandler}
+          onKeyDown={toggleFiltersKeydownHandler}
+          tabIndex={0}
         >
-          <img
-            src={`${process.env.PUBLIC_URL}/images/filter.svg`}
-            alt="filters"
-            className=" "
-            style={{ width: '2rem' }}
-          />
-          <figcaption>Show filters</figcaption>
-        </button>
-      </div>
+          <button tabIndex={-1} type="button" className="button " style={{ border: 'none' }}>
+            <img
+              src={`${process.env.PUBLIC_URL}/images/filter.svg`}
+              alt="filters"
+              className=" "
+              style={{ width: '2rem' }}
+            />
+            <figcaption>Show filters</figcaption>
+          </button>
+        </div>
+      )}
       <div className={`box ${showFiltersMobile ? '' : 'is-hidden-mobile'} mb-5`}>
         <button
           className="delete  is-pulled-right is-medium is-hidden-tablet"
