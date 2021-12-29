@@ -1,9 +1,10 @@
 import { useState } from 'react';
-
+import { getEraNamesByCanonicity } from '../../lib/api';
 import EraFilterButton from '../Button/EraFilterButton';
 
 const BooksFilter = ({ onChange, canonicity, reprint }) => {
   const [activeEra, setActiveEra] = useState('');
+  const [showFiltersMobile, setShowFiltersMobile] = useState(false);
 
   const switchChangeHandler = (event) => {
     if (event.target.name === 'onlyCanon') {
@@ -34,28 +35,43 @@ const BooksFilter = ({ onChange, canonicity, reprint }) => {
     setActiveEra(action.value);
   };
 
-  const CANON_ERAS = [
-    { id: 'can/thr', label: 'The High Republic' },
-    { id: 'can/fotj', label: 'Fall of the Jedi' },
-    { id: 'can/rote', label: 'Reign of the Empire' },
-    { id: 'can/aor', label: 'Age of Rebellion' },
-    { id: 'can/tnr', label: 'The New Republic' },
-    { id: 'can/rotfo', label: 'Rise of The First Order' },
-  ];
+  const CANON_ERAS = getEraNamesByCanonicity('canon');
+  const LEGENDS_ERAS = getEraNamesByCanonicity('legends');
 
-  const LEGENDS_ERAS = [
-    { id: 'leg/pre', label: 'Pre-Republic' },
-    { id: 'leg/btr', label: 'Before the Republic' },
-    { id: 'leg/old', label: 'Old republic' },
-    { id: 'leg/imp', label: 'Rise of the Empire' },
-    { id: 'leg/reb', label: 'Rebellion' },
-    { id: 'leg/njo', label: 'New Jedi Order' },
-    { id: 'leg/lgc', label: 'Legacy' },
-  ];
+  const toggleFiltersHandler = () => {
+    setShowFiltersMobile(!showFiltersMobile);
+  };
+
+  const closeFiltersHandler = () => {
+    setShowFiltersMobile(false);
+  };
 
   return (
     <>
-      <div className="box mb-5">
+      <div className="box is-hidden-tablet has-text-centered">
+        <button
+          type="button"
+          className="button "
+          style={{ border: 'none' }}
+          onClick={toggleFiltersHandler}
+        >
+          <img
+            src={`${process.env.PUBLIC_URL}/images/filter.svg`}
+            alt="filters"
+            className=" "
+            style={{ width: '2rem' }}
+          />
+          <figcaption>Show filters</figcaption>
+        </button>
+      </div>
+      <div className={`box ${showFiltersMobile ? '' : 'is-hidden-mobile'} mb-5`}>
+        <button
+          className="delete  is-pulled-right is-medium is-hidden-tablet"
+          type="button"
+          onClick={closeFiltersHandler}
+        >
+          Close filters
+        </button>
         <div className="level">
           <div className="level-item  level-left has-text-centered">
             <div className="field">

@@ -1,7 +1,7 @@
 import classes from './Book.module.css';
 import ImageWithFallback from '../ui/ImageWithFallback';
 import DatePage from '../ui/DatePage';
-import { getImageUrl } from '../../lib/api';
+import { getEraNameByAcronym, getImageUrl } from '../../lib/api';
 import AmazonIcon from '../ui/icons/AmazonIcon';
 import WookieepediaIcon from '../ui/icons/WookieepediaIcon';
 
@@ -39,12 +39,25 @@ const Book = (props) => {
             {props.book.canonicity === 'legends' && (
               <span className={`tag is-danger ${classes.tag}`}>{props.book.canonicity}</span>
             )}
-            {props.book.canonicity !== 'legends' && props.book.canonicity !== 'canon' && (
+            {props.book.canonicity === 'other' && (
               <span className={`tag  ${classes.tag}`}>{props.book.canonicity}</span>
             )}
             <span className={`tag is-info is-light ${classes.tag}`}>{props.book.format}</span>
             {props.book.reprint && (
               <span className={`tag is-danger is-light ${classes.tag}`}>reprint</span>
+            )}
+            {props.book.era && (
+              <span className={`tag is-warning is-light ${classes.tag}`}>
+                {getEraNameByAcronym(props.book.era)}
+              </span>
+            )}
+            {props.book.pages && (
+              <span className={`tag is-link is-light ${classes.tag}`}>
+                {props.book.pages} pages
+              </span>
+            )}
+            {props.book.author && (
+              <span className={`tag is-primary is-light ${classes.tag}`}>{props.book.author}</span>
             )}
           </div>
         </div>

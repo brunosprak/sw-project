@@ -9,15 +9,13 @@ const ImageWithFallback = ({
   width = '100%',
   height = '100%',
   scale = '1.0',
-  loadingElement = <LoadingSpinner />,
+  loadingElement = <LoadingSpinner />
 }) => {
   const [imgSrc, setImgSrc] = useState(src);
   const [isLoading, setIsLoading] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
   const [imageWidth, setImageWidth] = useState(width);
   const [imageHeight, setImageHeight] = useState(height);
-
-  console.log(src);
 
   const onErrorHandler = () => {
     setImgSrc(onFallback);
