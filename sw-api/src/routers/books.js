@@ -51,7 +51,6 @@ router.get('/:isbn10/cover', (req, res) => {
     res.on('close', () => {
       readStream.unpipe(res);
     });
-    res.end();
   } catch (err) {
     return res.status(404).end();
   }
