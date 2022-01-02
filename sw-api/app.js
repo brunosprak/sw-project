@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import booksRoutes from './src/routers/books';
-import iconsRoutes from './src/routers/icons';
 import morgan from 'morgan';
 import compression from 'compression';
 import helmet from 'helmet';
@@ -24,8 +23,6 @@ app.use((req, res, next) => {
 });
 
 app.use('/books', booksRoutes);
-
-// app.use('/icons', iconsRoutes);
 
 app.use(
   '/public',
