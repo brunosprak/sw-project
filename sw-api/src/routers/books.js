@@ -49,6 +49,7 @@ router.get('/:isbn10/cover', (req, res) => {
     const readStream = fs.createReadStream(filePath);
     readStream.pipe(res);
     readStream.unpipe(res);
+    res.end();
   } catch (err) {
     return res.status(404).end();
   }
