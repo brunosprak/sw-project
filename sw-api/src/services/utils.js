@@ -102,13 +102,45 @@ export const createEtagFromStats = (fsStats) => {
   if (!fsStats) {
     throw Error('Stats is null!');
   }
-  var mtime = fsStats.mtime.getTime().toString(16);
-  var size = fsStats.size.toString(16);
+  const mtime = fsStats.mtime.getTime().toString(16);
+  const size = fsStats.size.toString(16);
   const etag = `W/"${size}-${mtime}"`;
   return etag;
 };
 
-export const downloadUrl = async (url, dest, cb) => {
+export const downloadUrl = (url, dest, cb) => {
+  const file = fs.createWriteStream(dest);
+
+  let httpLib = http;
+
+  if (url.toUpperCase().indexOf('HTTPS://') !== -1) {
+    httpLib = https;
+  }
+
+  const request = httpLib.get(url, (response) => {
+    // check if response is success
+    if (response.statusCode !== 200) {
+      return cb(`Response status was ${response.statusCode}`);
+    }
+    response.pipe(file);
+    return false;
+  });
+
+  // close() is async, call cb after close completes
+  file.on('finish', () => file.close(cb));
+
+  // check for request error too
+  request.on('error', (err) => {
+    fs.unlink(dest, () => cb(err.message)); // delete the (partial) file and then return the error
+  });
+
+  file.on('error', (err) => {
+    // Handle errors
+    fs.unlink(dest, () => cb(err.message)); // delete the (partial) file and then return the error
+  });
+};
+
+export const downloadUrlx = async (url, dest, cb) => {
   const file = fs.createWriteStream(dest);
 
   let httpLib = http;
@@ -125,7 +157,7 @@ export const downloadUrl = async (url, dest, cb) => {
           return cb(`Response status was ${response.statusCode}`);
         }
         response.pipe(file);
-        response.unpipe(file);
+        // response.unpipe(file);
         file.on('finish', () => {
           file.close(cb); // close() is async, call cb after close completes.
           resolve();
@@ -153,10 +185,10 @@ export const timelineToEraByUnit = (timeline, unit, multipler) => {
   if (divisionBby && divisionBby.length >= 2) {
     const divisionByDash = divisionBby[0].split('-');
     const onlyNumbersRegex = /\D+/;
-    return multipler * Number.parseInt(divisionByDash[0].replace(onlyNumbersRegex, ''));
-  } else {
-    return null;
+    return multipler * Number.parseInt(divisionByDash[0].replace(onlyNumbersRegex, ''), 10);
   }
+
+  return null;
 };
 
 const timelineToYearCanon = (timeline) => {
