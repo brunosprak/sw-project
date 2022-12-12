@@ -108,7 +108,7 @@ export const createEtagFromStats = (fsStats) => {
   return etag;
 };
 
-export const downloadUrl = (url, dest, cb) => {
+export const downloadUrl = async (url, dest, cb) => {
   const file = fs.createWriteStream(dest);
 
   let httpLib = http;

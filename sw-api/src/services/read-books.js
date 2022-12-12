@@ -77,7 +77,7 @@ const fetchAndMergeWithDetailInfo = async (fetchTextFn, basicBookInfoList) => {
         publisher: detail.publisher || '',
         isbn13: toIsbn13(detail.isbn) || '',
         isbn10: toIsbn10(detail.isbn) || '',
-        pages: Number.parseInt(detail.pages) || '',
+        pages: Number.parseInt(detail.pages, 10) || '',
         timeline,
         canonicity,
         era,

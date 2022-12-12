@@ -1,15 +1,16 @@
 import express from 'express';
 import cors from 'cors';
-import booksRoutes from './src/routers/books';
 import morgan from 'morgan';
 import compression from 'compression';
 import helmet from 'helmet';
 import path from 'path';
 import fs from 'fs';
 
+import booksRoutes from './src/routers/books';
+
 const app = express();
 
-var accessLogStream = fs.createWriteStream(path.resolve('access.log'), { flags: 'a' });
+const accessLogStream = fs.createWriteStream(path.resolve('access.log'), { flags: 'a' });
 app.use(morgan('combined', { stream: accessLogStream }));
 
 app.use(helmet());
